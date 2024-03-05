@@ -1,0 +1,28 @@
+<mxfile host="Electron" modified="2023-11-04T17:38:47.690Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.4.0 Chrome/112.0.5615.204 Electron/24.5.1 Safari/537.36" etag="f2adu0tV8E7dTHZzRfGo" version="21.4.0" type="device">
+  <diagram name="Page-1" id="sl60tot-cfiaRbylI1Li">
+    <mxGraphModel dx="1036" dy="606" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sKrpmMFDSdfUeh30Tr3f-1" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="120" y="80" width="620" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="sKrpmMFDSdfUeh30Tr3f-26" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="720" y="80" width="20" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="CDB8x_8W_AEETIh5c3ry-1" value="TIN TỨC" style="text;html=1;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="170" y="100" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="CDB8x_8W_AEETIh5c3ry-2" value="TIÊU ĐỀ" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="170" y="150" width="510" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="CDB8x_8W_AEETIh5c3ry-3" value="HÌNH ẢNH" style="rounded=0;whiteSpace=wrap;html=1;fontSize=20;fontStyle=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="215" y="210" width="420" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="CDB8x_8W_AEETIh5c3ry-4" value="NỘI DUNG TÓM NGẮN NGẮN" style="text;html=1;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="270" y="360" width="320" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

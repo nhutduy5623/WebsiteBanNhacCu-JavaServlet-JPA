@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <mkdir dir="D:\IT\LTJava\JavaWeb\Demo\QuanLyNhacCu_JPA\target/QuanLyNhacCu-1.0-SNAPSHOT/uploads"/>
+</target>
+</project>

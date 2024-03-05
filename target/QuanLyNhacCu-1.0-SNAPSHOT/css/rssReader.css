@@ -1,0 +1,45 @@
+        body {
+            background-color: #f8f9fa; /* Light grey background for a softer look */
+        }
+        h1 {
+            margin-top: 110px; /* Tin tức cách một khoảng so với menu */
+            color: #0056b3; /* A strong color for the main heading */
+            margin-bottom: 30px; /* More space below the heading */
+        }
+        .list-group-item {
+            margin-bottom: 10px; /* Space out list items */
+            border-radius: 5px; /* Rounded corners for list items */
+            border-left: 5px solid #007bff; /* A colored left border for emphasis */
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; /* Smooth transition for hover effects */
+        }
+        .list-group-item-action:hover {
+            transform: translateX(5px); /* Slight right movement on hover */
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+        }
+        .mb-1 {
+            font-size: 1.25rem; /* Larger font size for titles */
+        }
+        small {
+            font-weight: bold; /* Bold font for the date */
+        }
+        .mb-1, .list-group-item small {
+            color: #495057; /* Dark grey color for better readability */
+        }
+        /* Responsive font sizes for smaller devices */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem; /* Smaller font size for the main heading on small screens */
+            }
+            .mb-1 {
+                font-size: 1rem; /* Smaller font size for titles on small screens */
+            }
+        }
+        .rss-image {
+            display: block; /* Required for margins to work on block-level elements */
+            margin-left: auto; /* Centers the image on the left */
+            margin-right: auto; /* Centers the image on the right */
+            width: 400px; /* Fixed width, change as needed */
+            height: 300px; /* Fixed height, change as needed */
+            object-fit: cover; /* Ensures the image covers the area */
+            border-radius: 10px; /* Rounds the corners */
+        }

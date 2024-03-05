@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Liên Hệ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="http://ttcntt.sgu.edu.vn/wp-content/uploads/2018/11/SGU-LOGO.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="css/Contact.css" rel="stylesheet" type="text/css"/>
+</head>
+  <body>
+    <!-- CÁCH ĐỂ NHÚNG JSP VÀO MỘT FILE HTML -->
+    <div id="menu-container"></div>
+    <script>
+      // Load menu và chèn nó vào div 'menu-container'
+      fetch('Menu.jsp')
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('menu-container').innerHTML = html;
+        })
+        .catch(error => console.error('Error loading the Menu:', error));
+    </script>
+
+      
+    <!-- Chats container -->
+    <div class="chat-container"></div>
+    <!-- Typing container -->
+    <div class="typing-container">
+      <div class="typing-content">
+        <div class="typing-textarea">
+          <textarea id="chat-input" spellcheck="false" placeholder="Nhập tin nhắn ở đây ..." required></textarea>
+          
+        </div>
+        <div class="typing-controls">
+            <span id="send-btn" class="material-symbols-rounded">send</span>
+            <span id="delete-btn" class="material-symbols-rounded">delete</span>
+      </div>
+    </div>
+  </body>
+  <script>
+    const chatInput = document.querySelector("#chat-input");
+    const sendButton = document.querySelector("#send-btn");
+    const chatContainer = document.querySelector(".chat-container");
+    const deleteButton = document.querySelector("#delete-btn");
+
+    let userText = null;
+    const API_KEY = "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"; // API CHAT GPT
+
+    const loadDataFromLocalstorage = () => {
+        // Tải các cuộc trò chuyện và chủ đề đã lưu từ bộ nhớ cục bộ và áp dụng/thêm trên trang
+        const themeColor = localStorage.getItem("themeColor");
+
+        document.body.classList.toggle("light-mode", themeColor === "light_mode");
+
+        const defaultText = `<div class="default-text">
+                                <h1>Liên hệ CSKH</h1>
+                                <p>Hãy bắt đầu bằng một lời chào.</p>
+                            </div>`
+
+        chatContainer.innerHTML = localStorage.getItem("all-chats") || defaultText;
+        chatContainer.scrollTo(0, chatContainer.scrollHeight); // Cuộn xuống cuối vùng trò chuyện
+    }
+
+    const createChatElement = (content, className) => {
+        // Tạo div mới và áp dụng trò chuyện, lớp được chỉ định và đặt nội dung html của div
+        const chatDiv = document.createElement("div");
+        chatDiv.classList.add("chat", className);
+        chatDiv.innerHTML = content;
+        return chatDiv; // Trả về div trò chuyện đã tạo
+    }
+
+    const getChatResponse = async (incomingChatDiv) => {
+        const API_URL = "https://api.openai.com/v1/completions";
+        
+        const pElement = document.createElement("p");
+
+        // Xác định các thuộc tính và dữ liệu cho yêu cầu API
+        const requestOptions = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "text-davinci-003",
+                prompt: userText,
+                max_tokens: 2048,
+                temperature: 0.2,
+                n: 1,
+                stop: null
+            })
+        }
+
+        // Gửi yêu cầu POST tới API, nhận phản hồi và đặt phản hồi dưới dạng văn bản thành phần đoạn văn
+        try {
+            const response = await (await fetch(API_URL, requestOptions)).json();
+            pElement.textContent = response.choices[0].text.trim();
+        } catch (error) { // Thêm lớp lỗi vào thành phần đoạn văn và đặt văn bản lỗi
+            pElement.classList.add("error");
+            pElement.textContent = "Có lỗi xảy ra, vui lòng thử lại.";
+        }
+
+        // Xóa hoạt ảnh gõ, nối thêm thành phần đoạn văn và lưu cuộc trò chuyện vào bộ nhớ cục bộ
+        incomingChatDiv.querySelector(".typing-animation").remove();
+        incomingChatDiv.querySelector(".chat-details").appendChild(pElement);
+        localStorage.setItem("all-chats", chatContainer.innerHTML);
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+    }
+
+    const copyResponse = (copyBtn) => {
+        // Sao chép nội dung văn bản phản hồi vào clipboard
+        const reponseTextElement = copyBtn.parentElement.querySelector("p");
+        navigator.clipboard.writeText(reponseTextElement.textContent);
+        copyBtn.textContent = "done";
+        setTimeout(() => copyBtn.textContent = "content_copy", 1000);
+    }
+
+    const showTypingAnimation = () => {
+        // Hiển thị ảnh động gõ và gọi hàm getChatResponse
+        const html = `<div class="chat-content">
+                        <div class="chat-details">
+                            <img src="images/chatbot.jpg" alt="chatbot-img">
+                            <div class="typing-animation">
+                                <div class="typing-dot" style="--delay: 0.2s"></div>
+                                <div class="typing-dot" style="--delay: 0.3s"></div>
+                                <div class="typing-dot" style="--delay: 0.4s"></div>
+                            </div>
+                        </div>
+                        <span onclick="copyResponse(this)" class="material-symbols-rounded">content_copy</span>
+                    </div>`;
+        // Tạo một div trò chuyện đến bằng cách nhập hoạt ảnh và thêm nó vào vùng chứa trò chuyện
+        const incomingChatDiv = createChatElement(html, "incoming");
+        chatContainer.appendChild(incomingChatDiv);
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        getChatResponse(incomingChatDiv);
+    }
+
+    const handleOutgoingChat = () => {
+        userText = chatInput.value.trim(); // Nhận giá trị chatInput và xóa khoảng trắng thừa
+        if(!userText) return; // Nếu chatInput trống, hãy quay lại từ đây
+
+        // Xóa trường nhập và đặt lại chiều cao của nó
+        chatInput.value = "";
+        chatInput.style.height = `${initialInputHeight}px`;
+
+        const html = `<div class="chat-content">
+                        <div class="chat-details">
+                            <img src="images/user.png" alt="user-img">
+                            <p>${userText}</p>
+                        </div>
+                    </div>`;
+
+        // Tạo div trò chuyện gửi đi với tin nhắn của người dùng và thêm nó vào vùng chứa trò chuyện
+        const outgoingChatDiv = createChatElement(html, "outgoing");
+        chatContainer.querySelector(".default-text")?.remove();
+        chatContainer.appendChild(outgoingChatDiv);
+        chatContainer.scrollTo(0, chatContainer.scrollHeight);
+        setTimeout(showTypingAnimation, 500);
+    }
+
+    deleteButton.addEventListener("click", () => {
+        // Xóa các cuộc trò chuyện khỏi bộ nhớ cục bộ và gọi hàm LoadDataFromLocalstorage
+        if(confirm("Are you sure you want to delete all the chats?")) {
+            localStorage.removeItem("all-chats");
+            loadDataFromLocalstorage();
+        }
+    });
+
+    const initialInputHeight = chatInput.scrollHeight;
+
+    chatInput.addEventListener("input", () => {   
+        // Điều chỉnh linh hoạt chiều cao của trường đầu vào dựa trên nội dung của nó
+        chatInput.style.height =  `${initialInputHeight}px`;
+        chatInput.style.height = `${chatInput.scrollHeight}px`;
+    });
+
+    chatInput.addEventListener("keydown", (e) => {
+        // Nếu nhấn phím Enter mà không có Shift và chiều rộng cửa sổ lớn hơn 800 pixel, xử lý cuộc trò chuyện đi
+        if (e.key === "Enter" && !e.shiftKey && window.innerWidth > 800) {
+            e.preventDefault();
+            handleOutgoingChat();
+        }
+    });
+
+    loadDataFromLocalstorage();
+    sendButton.addEventListener("click", handleOutgoingChat);
+  </script>
+</html>
